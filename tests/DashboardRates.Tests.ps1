@@ -127,4 +127,11 @@ Describe 'Set-DashboardRatesResponse' {
         }
         Get-Content $ratesPath -Raw | Should -Be $before
     }
+
+    It 'accepts an ordered-dictionary body (Pode delivery shape)' {
+        $body = [ordered]@{ mikdamotRate = 0.09 }
+        $r = Set-DashboardRatesResponse -Body $body -RatesPath $ratesPath -EnvPath $envPath
+        $r.StatusCode | Should -Be 200
+        (Get-Content $ratesPath -Raw | ConvertFrom-Json).mikdamotRate | Should -Be 0.09
+    }
 }

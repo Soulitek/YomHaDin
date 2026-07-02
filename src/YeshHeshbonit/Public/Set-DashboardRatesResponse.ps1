@@ -6,13 +6,23 @@ function Set-DashboardRatesResponse {
         [string]$EnvPath
     )
 
-    # Pode delivers JSON bodies as PSCustomObject; tests use hashtables; both accepted
-    if ($Body -is [pscustomobject]) {
-        $converted = @{}
-        foreach ($p in $Body.PSObject.Properties) { $converted[$p.Name] = $p.Value }
-        $Body = $converted
+    # Normalize the body to a plain hashtable. Pode delivers JSON objects as an
+    # OrderedHashtable, which satisfies BOTH -is [hashtable] and -is [pscustomobject];
+    # dictionaries must be handled BEFORE the PSCustomObject branch, otherwise
+    # .PSObject.Properties enumerates the dictionary's .NET members, not its entries.
+    if ($Body -is [System.Collections.IDictionary]) {
+        $ht = @{}
+        foreach ($k in $Body.Keys) { $ht["$k"] = $Body[$k] }
+        $Body = $ht
     }
-    if ($Body -isnot [hashtable]) { $Body = @{} }
+    elseif ($Body -is [pscustomobject]) {
+        $ht = @{}
+        foreach ($p in $Body.PSObject.Properties) { $ht[$p.Name] = $p.Value }
+        $Body = $ht
+    }
+    else {
+        $Body = @{}
+    }
 
     $extraKeys = @($Body.Keys | Where-Object { $_ -ne 'mikdamotRate' })
     if ($extraKeys.Count -gt 0) {
