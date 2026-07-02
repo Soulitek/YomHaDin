@@ -12,6 +12,7 @@ VAT period, calculates how much to set aside for:
 
 - Windows, PowerShell 7+
 - yeshinvoice.co.il account with API credentials (secret + userkey)
+- Pode module (dashboard only): `Install-Module Pode -Scope CurrentUser`
 - Pester 5 (dev/testing only)
 
 ## Setup
@@ -38,6 +39,17 @@ Get-TaxSummary -From 2026-05-01 -To 2026-06-30
 Get-TaxSummary -Month 2026-06 -ExportCsv .\2026-06-summary.csv
 ```
 
+### Web dashboard
+
+```powershell
+Start-TaxDashboard              # http://127.0.0.1:8321, opens your browser
+Start-TaxDashboard -Port 9000 -NoBrowser
+```
+
+Hebrew RTL dashboard: period picker, set-aside cards (מע"מ / מקדמות / ביטוח לאומי),
+invoice table, accountant CSV download. Binds to 127.0.0.1 only — never reachable
+from the network.
+
 ## Tests
 
 ```powershell
@@ -50,7 +62,7 @@ Invoke-Pester .\tests
 
 ## Status
 
-Working. Run `Invoke-Pester .\tests` to verify (46 tests).
+Working. Run `Invoke-Pester .\tests` to verify (78 tests).
 
 Remember to set `mikdamotRate` in `config/rates.json` to your actual rate from the
 מס הכנסה assessment letter — the committed value is a placeholder default.
