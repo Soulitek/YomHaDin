@@ -40,6 +40,11 @@ Describe 'Initialize-YeshHeshbonit' {
         (Get-Content (Join-Path $root 'config/rates.json') -Raw | ConvertFrom-Json).mikdamotRate | Should -Be 0.085
     }
 
+    It 'accepts a zero rate' {
+        Initialize-YeshHeshbonit -Secret s -UserKey u -MikdamotRate 0 -SkipTest -Force -ProjectRoot $root
+        (Get-Content (Join-Path $root 'config/rates.json') -Raw | ConvertFrom-Json).mikdamotRate | Should -Be 0
+    }
+
     It 'rejects an out-of-range rate and writes nothing' {
         { Initialize-YeshHeshbonit -Secret s -UserKey u -MikdamotRate 150 -SkipTest -Force -ProjectRoot $root } |
             Should -Throw '*between 0 and 100*'

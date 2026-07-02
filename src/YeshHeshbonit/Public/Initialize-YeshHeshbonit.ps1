@@ -49,12 +49,16 @@ function Initialize-YeshHeshbonit {
     }
 
     # Collect any values not supplied on the command line.
-    if (-not $Secret) { $Secret = Read-YeshSecret -Prompt 'Enter your yeshinvoice API secret' }
-    if (-not $UserKey) { $UserKey = Read-YeshSecret -Prompt 'Enter your yeshinvoice API userkey' }
+    if ([string]::IsNullOrWhiteSpace($Secret)) { $Secret = Read-YeshSecret -Prompt 'Enter your yeshinvoice API secret' }
+    if ([string]::IsNullOrWhiteSpace($UserKey)) { $UserKey = Read-YeshSecret -Prompt 'Enter your yeshinvoice API userkey' }
     if (-not $PSBoundParameters.ContainsKey('MikdamotRate')) {
         $raw = Read-Host 'Enter your income-tax advance rate (mikdamot) as a percent, e.g. 8'
         $parsed = 0.0
-        if (-not [double]::TryParse($raw, [ref]$parsed)) {
+        # Parse with the invariant culture so '8.5' works regardless of the machine's
+        # locale (on a he-IL machine the current culture's decimal separator is ',').
+        $ok = [double]::TryParse($raw, [System.Globalization.NumberStyles]::Float,
+            [System.Globalization.CultureInfo]::InvariantCulture, [ref]$parsed)
+        if (-not $ok) {
             throw "'$raw' is not a valid number for the mikdamot rate."
         }
         $MikdamotRate = $parsed
@@ -98,6 +102,7 @@ function Initialize-YeshHeshbonit {
     $configDir = Join-Path $ProjectRoot 'config'
     if (-not (Test-Path $configDir)) { New-Item -ItemType Directory -Path $configDir | Out-Null }
 
+    # The trailing newline is already in the string; -NoNewline stops Set-Content adding another.
     "YESH_SECRET=$Secret`nYESH_USERKEY=$UserKey`n" | Set-Content -Path $envPath -Encoding utf8 -NoNewline
     $rates | ConvertTo-Json -Depth 5 | Set-Content -Path $ratesPath -Encoding utf8
 
