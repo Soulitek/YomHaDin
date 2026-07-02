@@ -80,6 +80,21 @@ input[type="month"], input[type="date"] {
   vertical-align: middle;
 }
 
+.total-setaside {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin: 12px 0 18px;
+}
+.total-setaside .total-label { font-size: 1rem; font-weight: 600; }
+.total-setaside .total-amount { font-size: 1.9rem; font-weight: 700; }
+.total-setaside .total-note { font-size: .78rem; opacity: .85; }
+
 .summary-line { display: flex; gap: 24px; color: var(--muted); }
 table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
 th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--border); }

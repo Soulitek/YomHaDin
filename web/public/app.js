@@ -45,6 +45,9 @@
     $('card-vat').textContent = ils.format(data.totals.vat);
     $('card-mikdamot').textContent = ils.format(data.totals.mikdamot);
     $('card-bl').textContent = ils.format(data.totals.bituachLeumiEstimate);
+    const totalSetAside = Math.round(
+      (data.totals.vat + data.totals.mikdamot + data.totals.bituachLeumiEstimate) * 100) / 100;
+    $('card-total').textContent = ils.format(totalSetAside);
     $('sum-gross').textContent = ils.format(data.totals.gross);
     $('sum-net').textContent = ils.format(data.totals.net);
 
