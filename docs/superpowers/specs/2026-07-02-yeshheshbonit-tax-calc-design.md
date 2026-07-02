@@ -144,8 +144,8 @@ Excel): per-invoice rows + totals rows.
     "reducedRate": 0.0597,
     "fullRate": 0.1783
   },
-  "revenueDocTypes": [],
-  "creditDocTypes": [],
+  "revenueDocTypes": [8, 9],
+  "creditDocTypes": [10],
   "cancelledStatusIds": []
 }
 ```
@@ -153,17 +153,40 @@ Excel): per-invoice rows + totals rows.
 - `mikdamotRate` is personal — Eitan fills it from his מס הכנסה assessment letter.
 - BL figures are 2026 values; year changes = edit this file only. Nothing is hardcoded
   in source.
-- `revenueDocTypes` / `creditDocTypes` / `cancelledStatusIds`: the numeric
-  `DocumentType` / `StatusID` mappings are account-observable values. **Implementation
-  step:** confirm the IDs against a live `getInvoices` call on Eitan's real account (and
-  the API docs "Dictionary" section) before finalizing defaults. Expected defaults:
-  חשבונית מס and חשבונית מס-קבלה as revenue; חשבונית זיכוי as credit; quotes/orders/
-  proformas excluded. Same verification applies to `vattype` value semantics.
+
+### Verified ID mappings (live API + official docs, 2026-07-02)
+
+`DocumentType` (from the create-invoice docs):
+
+| ID | Document | Treatment |
+|----|----------|-----------|
+| 1 | הצעת מחיר | excluded |
+| 2 | הזמנה | excluded |
+| 3 | תעודת משלוח | excluded |
+| 6 | קבלה | **excluded — payment record for an invoice already counted; including it double-counts revenue** (Eitan's account issues both 8 and 6) |
+| 8 | חשבונית מס | revenue |
+| 9 | חשבונית מס/קבלה | revenue |
+| 10 | חשבונית זיכוי | credit (negative) |
+| 11 | קבלה לתרומה | excluded |
+
+`vattype` (from `POST /api/v1/getvatTypes`): 1 = לפני מע"מ, 2 = כולל מע"מ,
+3 = פיקדון נאמנות (no VAT), 4 = ללא מע"מ. In `getInvoices` list responses `vattype`
+can be empty — treat empty as כולל מע"מ (TotalPrice is gross); types 3 and 4
+contribute no VAT. Verify the empty-value assumption against one known invoice during
+implementation.
+
+`StatusID`: live account shows 1 = active. The cancelled-status ID must still be
+confirmed during implementation (create/cancel a test doc in sandbox, or check the
+cancel-endpoint docs); until confirmed, `cancelledStatusIds` stays empty and every
+non-1 status triggers a visible warning rather than silent inclusion.
 
 ## Security
 
 - Credentials only in `.env` (gitignored); `.env.example` committed with placeholders
-- Auth header built in one place (`Invoke-YeshApi`); never echoed, never in errors
+- Auth header built in one place (`Invoke-YeshApi`); never echoed, never in errors.
+  Confirmed hazard: .NET header validation rejects the JSON-shaped Authorization value
+  and **echoes it verbatim in the exception message** — `Invoke-YeshApi` must use
+  `-SkipHeaderValidation` and wrap all exceptions so raw messages never surface
 - Input validation on all parameters (dates, paths); config schema validated on load
 - Fail closed everywhere: any unexpected state aborts rather than producing a
   plausible-but-wrong tax number
