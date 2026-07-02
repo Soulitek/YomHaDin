@@ -5,7 +5,7 @@
     Author            = 'Eitan / SouliTEK'
     Description       = 'Per-invoice tax set-aside calculator over the yeshinvoice.co.il API (VAT / mikdamot / Bituach Leumi).'
     PowerShellVersion = '7.0'
-    FunctionsToExport = @('Get-TaxSummary', 'Get-YeshInvoice', 'Export-TaxSummary')
+    FunctionsToExport = @('Get-TaxSummary', 'Get-YeshInvoice', 'Export-TaxSummary', 'Get-DashboardSummaryResponse', 'Get-DashboardCsvResponse')
     CmdletsToExport   = @()
     VariablesToExport = @()
     AliasesToExport   = @()

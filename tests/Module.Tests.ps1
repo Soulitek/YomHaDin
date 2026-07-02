@@ -7,10 +7,10 @@ Describe 'YeshHeshbonit module' {
         { Test-ModuleManifest -Path $manifestPath -ErrorAction Stop } | Should -Not -Throw
     }
 
-    It 'declares the three public functions' {
+    It 'declares the public functions' {
         $manifest = Test-ModuleManifest -Path $manifestPath
         $manifest.ExportedFunctions.Keys | Sort-Object |
-            Should -Be @('Export-TaxSummary', 'Get-TaxSummary', 'Get-YeshInvoice')
+            Should -Be @('Export-TaxSummary', 'Get-DashboardCsvResponse', 'Get-DashboardSummaryResponse', 'Get-TaxSummary', 'Get-YeshInvoice')
     }
 
     It 'ships a rates.json with all required keys' {
