@@ -2,6 +2,8 @@
 
 *[עברית](#עברית) · [English](#english)*
 
+![YeshHeshbonit dashboard — מחשבון הפרשות מס](docs/dashboard.png)
+
 <div dir="rtl">
 
 ## עברית
