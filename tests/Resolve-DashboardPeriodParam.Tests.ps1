@@ -28,6 +28,15 @@ Describe 'Resolve-DashboardPeriodParam' {
         { Resolve-DashboardPeriodParam -Query @{ from = '2026-05-01' } } | Should -Throw '*Missing period*'
     }
 
+    It 'rejects to without from' {
+        { Resolve-DashboardPeriodParam -Query @{ to = '2026-06-30' } } | Should -Throw '*Missing period*'
+    }
+
+    It 'rejects array-valued query params' {
+        { Resolve-DashboardPeriodParam -Query @{ month = @('2026-06', '2026-07') } } |
+            Should -Throw '*multiple values not allowed*'
+    }
+
     It 'rejects a malformed month' {
         { Resolve-DashboardPeriodParam -Query @{ month = '2026-13' } } | Should -Throw "*Invalid 'month'*"
         { Resolve-DashboardPeriodParam -Query @{ month = 'June' } } | Should -Throw "*Invalid 'month'*"

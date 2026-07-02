@@ -4,6 +4,12 @@ function Resolve-DashboardPeriodParam {
         [Parameter(Mandatory)][hashtable]$Query
     )
 
+    foreach ($key in 'month', 'from', 'to') {
+        if ($Query[$key] -is [array]) {
+            throw "Invalid '$key': multiple values not allowed."
+        }
+    }
+
     $month = "$($Query['month'])"
     $from = "$($Query['from'])"
     $to = "$($Query['to'])"
