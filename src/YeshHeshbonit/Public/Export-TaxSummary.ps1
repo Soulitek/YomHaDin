@@ -23,8 +23,8 @@ function Export-TaxSummary {
     $rows = [System.Collections.Generic.List[object]]::new()
     foreach ($inv in @($Summary.Invoices)) {
         $rows.Add((New-Row -Type 'Invoice' -Date (Protect-CsvField $inv.Date) -DocumentNumber (Protect-CsvField $inv.DocumentNumber) `
-            -Customer (Protect-CsvField $inv.Customer) -Gross ([math]::Round($inv.Gross, 2)) `
-            -Net ([math]::Round($inv.Net, 2)) -Vat ([math]::Round($inv.Vat, 2))))
+            -Customer (Protect-CsvField $inv.Customer) -Gross ([math]::Round($inv.Gross, 2, [System.MidpointRounding]::AwayFromZero)) `
+            -Net ([math]::Round($inv.Net, 2, [System.MidpointRounding]::AwayFromZero)) -Vat ([math]::Round($inv.Vat, 2, [System.MidpointRounding]::AwayFromZero))))
     }
     $t = $Summary.Totals
     $rows.Add((New-Row -Type 'Total' -Gross $t.Gross -Net $t.Net -Vat $t.Vat))

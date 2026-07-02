@@ -34,6 +34,9 @@ function Resolve-DashboardPeriodParam {
         if (-not [datetime]::TryParseExact($to, 'yyyy-MM-dd', $culture, $styles, [ref]$t)) {
             throw "Invalid 'to' date '$to'. Expected yyyy-MM-dd."
         }
+        if ($f -gt $t) {
+            throw "Invalid range: 'to' ($to) is earlier than 'from' ($from)."
+        }
         return @{ From = $f; To = $t }
     }
     throw "Missing period: provide 'month' or 'from'+'to'."

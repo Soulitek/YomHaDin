@@ -48,4 +48,9 @@ Describe 'Resolve-DashboardPeriodParam' {
         { Resolve-DashboardPeriodParam -Query @{ from = '2026-05-01'; to = 'soon' } } |
             Should -Throw "*Invalid 'to'*"
     }
+
+    It 'rejects an inverted range as a validation error' {
+        { Resolve-DashboardPeriodParam -Query @{ from = '2026-06-30'; to = '2026-06-01' } } |
+            Should -Throw '*earlier than*'
+    }
 }

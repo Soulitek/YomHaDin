@@ -53,6 +53,9 @@ Describe 'Get-DashboardSummaryResponse' {
         $r.Body.totals.vat | Should -Be 180
         $r.Body.totals.mikdamot | Should -Be 50
         $r.Body.totals.bituachLeumiEstimate | Should -Be 59.7
+        $r.Body.totals.gross | Should -Be 1180
+        $r.Body.totals.net | Should -Be 1000
+        $r.Body.totals.months | Should -Be 1
     }
 
     It 'passes range params through to the period summary' {
@@ -62,6 +65,12 @@ Describe 'Get-DashboardSummaryResponse' {
         Mock Get-TaxPeriodSummary { throw 'wrong splat' }
         $r = Get-DashboardSummaryResponse -Query @{ from = '2026-05-01'; to = '2026-06-30' }
         $r.StatusCode | Should -Be 200
+    }
+
+    It 'returns 400 for an inverted range' {
+        $r = Get-DashboardSummaryResponse -Query @{ from = '2026-06-30'; to = '2026-06-01' }
+        $r.StatusCode | Should -Be 400
+        $r.Body.error | Should -Match 'earlier than'
     }
 }
 
@@ -76,6 +85,7 @@ Describe 'Get-DashboardCsvResponse' {
         Mock Get-TaxPeriodSummary { throw 'yeshinvoice API reported failure: bad token' }
         $r = Get-DashboardCsvResponse -Query @{ month = '2026-06' }
         $r.StatusCode | Should -Be 502
+        $r.Error | Should -Match 'bad token'
     }
 
     It 'returns CSV bytes with BOM and a period-stamped filename' {
