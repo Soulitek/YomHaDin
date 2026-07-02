@@ -11,7 +11,9 @@ Describe 'Invoke-YeshApi' {
             $Headers.Authorization -eq '{"secret":"test-secret-value","userkey":"test-user-key"}'
         }
         Invoke-YeshApi -Endpoint 'api/v1/getvatTypes' -Body @{} -Config $config | Out-Null
-        Should -Invoke Invoke-RestMethod -Times 1 -Exactly
+        Should -Invoke Invoke-RestMethod -Times 1 -Exactly -ParameterFilter {
+            $Headers.Authorization -eq '{"secret":"test-secret-value","userkey":"test-user-key"}'
+        }
     }
 
     It 'fails closed when the API reports Success=false' {
@@ -46,6 +48,14 @@ Describe 'Invoke-YeshApi' {
         $result.Count | Should -Be 3
         $result.ID | Should -Be @(1, 2, 3)
         Should -Invoke Invoke-RestMethod -Times 2 -Exactly
+    }
+
+    It 'fails closed if ReturnValue is null before total is reached' {
+        Mock Invoke-RestMethod {
+            [pscustomobject]@{ Success = $true; ErrorMessage = ''; total = 5; ReturnValue = $null }
+        }
+        { Invoke-YeshApi -Endpoint 'api/v1/getInvoices' -Body @{} -Config $config -Paginate } |
+            Should -Throw '*partial*'
     }
 
     It 'fails closed if a page comes back empty before total is reached' {

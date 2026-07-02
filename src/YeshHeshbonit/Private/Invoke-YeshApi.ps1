@@ -22,9 +22,10 @@ function Invoke-YeshApi {
         $pageBody = @{} + $Body
         $pageBody['PageNumber'] = $page
         $response = Invoke-YeshApiPage -Uri $uri -Headers $headers -Body $pageBody
-        foreach ($item in @($response.ReturnValue)) { $all.Add($item) }
+        $items = if ($null -ne $response.ReturnValue) { @($response.ReturnValue) } else { @() }
+        foreach ($item in $items) { $all.Add($item) }
         if ($all.Count -ge [int]$response.total) { break }
-        if (@($response.ReturnValue).Count -eq 0) {
+        if ($items.Count -eq 0) {
             throw "yeshinvoice returned $($all.Count) of $($response.total) documents and stopped. Aborting - refusing to calculate on partial data."
         }
         $page++

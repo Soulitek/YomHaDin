@@ -9,3 +9,6 @@
 # Output artifacts
 *.csv
 !tests/fixtures/*.csv
+
+# SDD scratch
+.superpowers/
