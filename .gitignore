@@ -1,0 +1,11 @@
+# Secrets
+.env
+
+# PowerShell / editor artifacts
+*.log
+.vscode/
+*.swp
+
+# Output artifacts
+*.csv
+!tests/fixtures/*.csv
