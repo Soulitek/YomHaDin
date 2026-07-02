@@ -140,4 +140,4 @@ Invoke-Pester .\tests
 ---
 
 Built and maintained by **[SouliTEK](https://soulitek.co.il)** — IT services and information
-security, Ra'anana, Israel. Questions: eitan@soulitek.co.il
+security. Questions: eitan@soulitek.co.il

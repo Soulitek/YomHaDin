@@ -70,5 +70,5 @@ always confirm the numbers with your accountant. Provided "as is", no warranty
   License:                  LICENSE  (MIT)
 
   Built and maintained by SouliTEK - https://soulitek.co.il
-  IT services and information security, Ra'anana, Israel.
+  IT services and information security.
   Contact: eitan@soulitek.co.il
