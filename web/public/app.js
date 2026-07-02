@@ -20,9 +20,28 @@
     show(banner, true);
   }
 
+  const heMonths = new Intl.DateTimeFormat('he-IL', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+
+  // Format any yyyy-MM-dd or dd-MM-yyyy string as DD/MM/YYYY. Unknown shapes pass through.
+  function toDMY(s) {
+    if (!s) return '';
+    const parts = String(s).split(/[-/]/);
+    if (parts.length !== 3) return String(s);
+    const [d, m, y] = parts[0].length === 4 ? [parts[2], parts[1], parts[0]] : parts;
+    return d.padStart(2, '0') + '/' + m.padStart(2, '0') + '/' + y;
+  }
+
+  // "יוני 2026" for a single-month view, otherwise "DD/MM/YYYY עד DD/MM/YYYY".
+  function periodLabel(period, params) {
+    if (params && params.month) {
+      const [y, m] = period.from.split('-');
+      return heMonths.format(new Date(Date.UTC(Number(y), Number(m) - 1, 1)));
+    }
+    return toDMY(period.from) + ' עד ' + toDMY(period.to);
+  }
+
   function render(data) {
-    $('period-label').textContent =
-      'תקופה: ' + data.period.from + ' עד ' + data.period.to + ' (' + data.period.months + ' חודשים)';
+    $('period-label').textContent = periodLabel(data.period, currentParams);
     $('card-vat').textContent = ils.format(data.totals.vat);
     $('card-mikdamot').textContent = ils.format(data.totals.mikdamot);
     $('card-bl').textContent = ils.format(data.totals.bituachLeumiEstimate);
@@ -33,7 +52,7 @@
     tbody.replaceChildren();
     for (const inv of data.invoices) {
       const tr = document.createElement('tr');
-      const cells = [inv.date, inv.documentNumber, inv.customer,
+      const cells = [toDMY(inv.date), inv.documentNumber, inv.customer,
                      ils.format(inv.gross), ils.format(inv.net), ils.format(inv.vat)];
       for (const value of cells) {
         const td = document.createElement('td');
