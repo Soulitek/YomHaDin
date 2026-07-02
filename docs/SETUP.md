@@ -142,3 +142,8 @@ Invoke-Pester .\tests
 - Never commit `.env` or `config/rates.json` — both are gitignored by default; keep it that way.
 - Credentials are sent only to `api.yeshinvoice.co.il` over HTTPS and are never written to logs or error messages.
 - The dashboard is for local use on your own machine (localhost, no authentication). Do not expose it to a network.
+
+---
+
+Built and maintained by **[SouliTEK](https://soulitek.co.il)** — IT services and information
+security, Ra'anana, Israel. Questions: eitan@soulitek.co.il

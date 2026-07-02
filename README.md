@@ -73,4 +73,7 @@ Invoke-Pester .\tests
 
 ## License
 
-[MIT](LICENSE) © 2026 SouliTEK
+[MIT](LICENSE) © 2026 [SouliTEK](https://soulitek.co.il)
+
+Built and maintained by **[SouliTEK](https://soulitek.co.il)** — IT services and
+information security, Ra'anana, Israel. Contact: eitan@soulitek.co.il
