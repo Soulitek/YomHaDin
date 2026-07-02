@@ -35,6 +35,11 @@ Describe 'Get-YeshConfig' {
             Should -Throw '*Missing .env*'
     }
 
+    It 'fails closed when rates.json is missing' {
+        { Get-YeshConfig -EnvPath $envPath -RatesPath (Join-Path $TestDrive 'nope.json') } |
+            Should -Throw '*Missing rates*'
+    }
+
     It 'fails closed on placeholder credentials' {
         Set-Content -Path $envPath -Value "YESH_SECRET=your-secret-guid-here`nYESH_USERKEY=x`n"
         { Get-YeshConfig -EnvPath $envPath -RatesPath $ratesPath } | Should -Throw '*YESH_SECRET*'
