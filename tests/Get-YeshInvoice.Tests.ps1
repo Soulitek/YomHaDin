@@ -50,6 +50,7 @@ Describe 'Get-YeshInvoice' {
     }
 
     It 'requests the API with the documented date format and pagination' {
+        Mock Invoke-YeshApi { throw 'unmocked Invoke-YeshApi call - request shape regression' }
         Mock Invoke-YeshApi { @() } -ParameterFilter {
             $Endpoint -eq 'api/v1/getInvoices' -and
             $Body.from -eq '2026-06-01 00:00' -and

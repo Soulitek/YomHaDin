@@ -16,6 +16,10 @@ function Get-TaxSummary {
         $From = [datetime]::ParseExact("$Month-01", 'yyyy-MM-dd', [cultureinfo]::InvariantCulture)
         $To = $From.AddMonths(1).AddMinutes(-1)
     }
+    if ($PSCmdlet.ParameterSetName -eq 'Range' -and $To.TimeOfDay -eq [timespan]::Zero) {
+        # A date-only -To means "through the end of that day"
+        $To = $To.Date.AddDays(1).AddMinutes(-1)
+    }
     if ($To -lt $From) {
         throw "Invalid range: -To ($($To.ToString('yyyy-MM-dd'))) is earlier than -From ($($From.ToString('yyyy-MM-dd')))."
     }

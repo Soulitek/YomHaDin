@@ -5,6 +5,7 @@ BeforeAll {
 
 Describe 'Invoke-YeshApi' {
     It 'sends the JSON credential object in the Authorization header' {
+        Mock Invoke-RestMethod { throw 'unmocked Invoke-RestMethod call - header shape regression' }
         Mock Invoke-RestMethod {
             [pscustomobject]@{ Success = $true; ErrorMessage = ''; ReturnValue = @() }
         } -ParameterFilter {
@@ -14,6 +15,14 @@ Describe 'Invoke-YeshApi' {
         Should -Invoke Invoke-RestMethod -Times 1 -Exactly -ParameterFilter {
             $Headers.Authorization -eq '{"secret":"test-secret-value","userkey":"test-user-key"}'
         }
+    }
+
+    It 'fails closed when the response has no total field' {
+        Mock Invoke-RestMethod {
+            [pscustomobject]@{ Success = $true; ErrorMessage = ''; ReturnValue = @([pscustomobject]@{ ID = 1 }) }
+        }
+        { Invoke-YeshApi -Endpoint 'api/v1/getInvoices' -Body @{} -Config $config -Paginate } |
+            Should -Throw '*total*'
     }
 
     It 'fails closed when the API reports Success=false' {

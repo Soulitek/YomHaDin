@@ -56,11 +56,11 @@ function ConvertTo-TaxCalculation {
     [pscustomobject]@{
         Invoices = $invoices
         Totals   = [pscustomobject]@{
-            Gross                = [math]::Round($totalNet + $totalVat, 2)
-            Net                  = [math]::Round($totalNet, 2)
-            Vat                  = [math]::Round($totalVat, 2)
-            Mikdamot             = [math]::Round($totalNet * $Rates.mikdamotRate, 2)
-            BituachLeumiEstimate = [math]::Round($blMonthly * $MonthsInPeriod, 2)
+            Gross                = [math]::Round($totalNet + $totalVat, 2, [System.MidpointRounding]::AwayFromZero)
+            Net                  = [math]::Round($totalNet, 2, [System.MidpointRounding]::AwayFromZero)
+            Vat                  = [math]::Round($totalVat, 2, [System.MidpointRounding]::AwayFromZero)
+            Mikdamot             = [math]::Round($totalNet * $Rates.mikdamotRate, 2, [System.MidpointRounding]::AwayFromZero)
+            BituachLeumiEstimate = [math]::Round($blMonthly * $MonthsInPeriod, 2, [System.MidpointRounding]::AwayFromZero)
             MonthsInPeriod       = $MonthsInPeriod
         }
     }

@@ -106,4 +106,14 @@ Describe 'ConvertTo-TaxCalculation' {
         $result = ConvertTo-TaxCalculation -Documents $docs -Rates $rates
         $result.Totals.Net | Should -Be 254.24
     }
+
+    It 'rounds half up (away from zero), not banker''s rounding' {
+        # net 100.10, mikdamotRate 0.05 -> 100.10*0.05 = 5.005 (exact midpoint in binary float)
+        # AwayFromZero gives 5.01, banker's rounding gives 5.00 (rounds to even)
+        # empirically verified: [math]::Round(100.10*0.05,2) = 5.00 vs AwayFromZero = 5.01
+        $doc = [pscustomobject]@{ DocumentType = 8; TotalPrice = 100.10; vattype = 1
+                                  DocumentNumber = '9001'; CustomerName = 'M'; Date = '01-06-2026' }
+        $result = ConvertTo-TaxCalculation -Documents @($doc) -Rates $rates
+        $result.Totals.Mikdamot | Should -Be 5.01
+    }
 }

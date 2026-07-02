@@ -5,6 +5,13 @@ function Export-TaxSummary {
         [Parameter(Mandatory)][string]$Path
     )
 
+    function Protect-CsvField {
+        param($Value)
+        $s = "$Value"
+        if ($s -match '^[=+\-@\t\r]') { return "'" + $s }
+        return $s
+    }
+
     function New-Row {
         param($Type, $Date = '', $DocumentNumber = '', $Customer = '', $Gross = '', $Net = '', $Vat = '', $Amount = '')
         [pscustomobject]@{
@@ -15,8 +22,8 @@ function Export-TaxSummary {
 
     $rows = [System.Collections.Generic.List[object]]::new()
     foreach ($inv in @($Summary.Invoices)) {
-        $rows.Add((New-Row -Type 'Invoice' -Date $inv.Date -DocumentNumber $inv.DocumentNumber `
-            -Customer $inv.Customer -Gross ([math]::Round($inv.Gross, 2)) `
+        $rows.Add((New-Row -Type 'Invoice' -Date (Protect-CsvField $inv.Date) -DocumentNumber (Protect-CsvField $inv.DocumentNumber) `
+            -Customer (Protect-CsvField $inv.Customer) -Gross ([math]::Round($inv.Gross, 2)) `
             -Net ([math]::Round($inv.Net, 2)) -Vat ([math]::Round($inv.Vat, 2))))
     }
     $t = $Summary.Totals

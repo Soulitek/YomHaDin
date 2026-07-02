@@ -35,12 +35,24 @@ Describe 'Get-TaxSummary' {
     }
 
     It 'converts -Month into a full-month range' {
+        Mock Get-YeshInvoice { throw 'unmocked Get-YeshInvoice call - range regression' }
         Mock Get-YeshInvoice { @(New-ApiDoc) } -ParameterFilter {
             $From -eq [datetime]'2026-06-01 00:00' -and
             $To -eq [datetime]'2026-06-30 23:59'
         }
         Get-TaxSummary -Month 2026-06 | Out-Null
         Should -Invoke Get-YeshInvoice -Times 1 -Exactly
+    }
+
+    It 'treats a date-only -To as end of that day' {
+        Mock Get-YeshInvoice { throw 'unexpected -To boundary' }
+        Mock Get-YeshInvoice { @(New-ApiDoc) } -ParameterFilter {
+            $To -eq [datetime]'2026-06-30 23:59'
+        }
+        Get-TaxSummary -From '2026-05-01' -To '2026-06-30' | Out-Null
+        Should -Invoke Get-YeshInvoice -Times 1 -Exactly -ParameterFilter {
+            $To -eq [datetime]'2026-06-30 23:59'
+        }
     }
 
     It 'rejects a malformed -Month' {

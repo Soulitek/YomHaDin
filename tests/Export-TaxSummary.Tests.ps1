@@ -38,4 +38,19 @@ Describe 'Export-TaxSummary' {
         $file | Should -BeOfType System.IO.FileInfo
         $file.FullName | Should -Be (Get-Item $path).FullName
     }
+
+    It 'neutralizes Excel formula injection in string fields' {
+        $evil = [pscustomobject]@{
+            Invoices = @(
+                [pscustomobject]@{ Date = '01-06-2026'; DocumentNumber = '1001'; DocumentType = 8
+                                   Customer = '=HYPERLINK("http://evil","x")'; Gross = 118.0; Net = 100.0; Vat = 18.0 }
+            )
+            Totals = [pscustomobject]@{ Gross = 118.0; Net = 100.0; Vat = 18.0
+                                        Mikdamot = 5.0; BituachLeumiEstimate = 5.97; MonthsInPeriod = 1 }
+        }
+        $path = Join-Path $TestDrive 'evil.csv'
+        Export-TaxSummary -Summary $evil -Path $path | Out-Null
+        $rows = Import-Csv $path
+        $rows[0].Customer | Should -Be "'=HYPERLINK(""http://evil"",""x"")"
+    }
 }

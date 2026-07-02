@@ -24,9 +24,14 @@ function Invoke-YeshApi {
         $response = Invoke-YeshApiPage -Uri $uri -Headers $headers -Body $pageBody
         $items = if ($null -ne $response.ReturnValue) { @($response.ReturnValue) } else { @() }
         foreach ($item in $items) { $all.Add($item) }
-        if ($all.Count -ge [int]$response.total) { break }
+        $totalProp = $response.PSObject.Properties['total']
+        if ($null -eq $totalProp -or $null -eq $totalProp.Value -or -not ($totalProp.Value -as [int] -is [int])) {
+            throw "yeshinvoice response is missing a numeric 'total' field. Aborting - refusing to calculate on possibly partial data."
+        }
+        $total = [int]$totalProp.Value
+        if ($all.Count -ge $total) { break }
         if ($items.Count -eq 0) {
-            throw "yeshinvoice returned $($all.Count) of $($response.total) documents and stopped. Aborting - refusing to calculate on partial data."
+            throw "yeshinvoice returned $($all.Count) of $($total) documents and stopped. Aborting - refusing to calculate on partial data."
         }
         $page++
     }
