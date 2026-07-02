@@ -107,5 +107,63 @@
     }
   });
 
+  let currentRatePercent = null;
+
+  function showRate(percent) {
+    currentRatePercent = percent;
+    $('rate-value').textContent = percent + '%';
+    show($('rate-editor'), false);
+    show($('btn-rate-edit'), true);
+  }
+
+  async function loadRate() {
+    try {
+      const res = await fetch('/api/rates');
+      const body = await res.json();
+      if (res.ok) {
+        showRate(Math.round(body.mikdamotRate * 1000) / 10);
+      } else {
+        showError(body.error || 'שגיאה בטעינת אחוז המקדמות');
+      }
+    } catch {
+      /* server-unavailable already surfaced by the summary load */
+    }
+  }
+
+  $('btn-rate-edit').addEventListener('click', () => {
+    $('rate-input').value = currentRatePercent ?? '';
+    show($('btn-rate-edit'), false);
+    show($('rate-editor'), true);
+  });
+
+  $('btn-rate-cancel').addEventListener('click', () => showRate(currentRatePercent));
+
+  $('btn-rate-save').addEventListener('click', async () => {
+    const percent = parseFloat($('rate-input').value);
+    if (Number.isNaN(percent) || percent < 0 || percent >= 100) {
+      showError('אחוז מקדמות לא תקין.');
+      return;
+    }
+    try {
+      const res = await fetch('/api/rates', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mikdamotRate: percent / 100 })
+      });
+      const body = await res.json();
+      if (!res.ok) {
+        showError(body.error || 'שמירת אחוז המקדמות נכשלה');
+        showRate(currentRatePercent);
+        return;
+      }
+      showRate(Math.round(body.mikdamotRate * 1000) / 10);
+      if (currentParams) load(currentParams);
+    } catch {
+      showError('השרת אינו זמין.');
+    }
+  });
+
+  loadRate();
+
   $('btn-this-month').click();
 })();

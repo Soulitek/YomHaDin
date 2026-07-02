@@ -61,5 +61,25 @@ function Start-TaxDashboard {
                 Write-PodeJsonResponse -Value @{ error = 'Internal error' } -StatusCode 500
             }
         }
+
+        Add-PodeRoute -Method Get -Path '/api/rates' -ScriptBlock {
+            try {
+                $r = Get-DashboardRatesResponse
+                Write-PodeJsonResponse -Value $r.Body -StatusCode $r.StatusCode
+            }
+            catch {
+                Write-PodeJsonResponse -Value @{ error = 'Internal error' } -StatusCode 500
+            }
+        }
+
+        Add-PodeRoute -Method Post -Path '/api/rates' -ScriptBlock {
+            try {
+                $r = Set-DashboardRatesResponse -Body $WebEvent.Data
+                Write-PodeJsonResponse -Value $r.Body -StatusCode $r.StatusCode
+            }
+            catch {
+                Write-PodeJsonResponse -Value @{ error = 'Internal error' } -StatusCode 500
+            }
+        }
     }).GetNewClosure()
 }

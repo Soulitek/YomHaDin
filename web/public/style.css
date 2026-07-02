@@ -85,3 +85,25 @@ table { width: 100%; border-collapse: collapse; background: var(--card); border:
 th, td { padding: 9px 12px; text-align: right; border-bottom: 1px solid var(--border); }
 th { background: #eef1f4; font-weight: 600; }
 tbody tr:last-child td { border-bottom: none; }
+
+.rates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 16px;
+  margin-bottom: 18px;
+}
+.rates b { color: var(--accent); }
+.rates input[type="number"] {
+  width: 90px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 8px;
+  font: inherit;
+}
+#rate-editor { display: inline-flex; gap: 8px; align-items: center; }
+#rate-editor.hidden { display: none; }
