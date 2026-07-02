@@ -50,4 +50,7 @@ Invoke-Pester .\tests
 
 ## Status
 
-Scaffolded — implementation in progress. See the spec for the approved design.
+Working. Run `Invoke-Pester .\tests` to verify (46 tests).
+
+Remember to set `mikdamotRate` in `config/rates.json` to your actual rate from the
+מס הכנסה assessment letter — the committed value is a placeholder default.
