@@ -30,36 +30,40 @@ cd YeshHeshbonitAPI
 
 ---
 
-## 3. Add your API credentials
-
-The tool reads credentials from a `.env` file that you create locally. It is gitignored —
-it never gets committed.
+## 3. Import the module
 
 ```powershell
-Copy-Item .env.example .env
-```
-
-Open `.env` and fill in your two keys:
-
-```
-YESH_SECRET=<your secret from yeshinvoice>
-YESH_USERKEY=<your userkey from yeshinvoice>
+Import-Module .\src\YeshHeshbonit\YeshHeshbonit.psd1
 ```
 
 ---
 
-## 4. Set your tax rates (required — you choose your rate)
+## 4. Configure (interactive — recommended)
 
-The tool does **not** ship with a rate, so you set your own before first use.
+Run the one-time setup and answer the prompts:
 
 ```powershell
-Copy-Item config\rates.example.json config\rates.json
+Initialize-YeshHeshbonit
 ```
 
-Open `config\rates.json` and set **`mikdamotRate`** to your income-tax advance rate — the
-percentage from your מס הכנסה assessment letter, written as a fraction (e.g. `0.08` for 8%).
+It asks for:
 
-The other values are current defaults you normally do not change:
+- your yeshinvoice **API secret** and **userkey** (input is masked), and
+- your **income-tax advance rate (מקדמות)** as a percent — you type `8`, it stores `0.08`.
+
+It then **verifies the keys against the API** (so a typo is caught immediately), and writes
+`.env` and `config/rates.json`. If the keys don't work, nothing is saved. Both files are
+gitignored, so your keys and rate stay on your machine. Pass `-SkipTest` to save without the
+online check, or `-Force` to overwrite an existing configuration.
+
+### Or configure by hand
+
+```powershell
+Copy-Item .env.example .env                              # then edit: YESH_SECRET, YESH_USERKEY
+Copy-Item config\rates.example.json config\rates.json    # then set mikdamotRate (fraction, e.g. 0.08)
+```
+
+The rate values you normally don't change:
 
 | Key | Meaning | Default |
 |-----|---------|---------|
@@ -70,26 +74,16 @@ The other values are current defaults you normally do not change:
 | `creditDocTypes` | document types counted as negative | `[10]` (credit note) |
 | `cancelledStatusIds` | status IDs to exclude | `[]` |
 
-`config\rates.json` is gitignored, so your personal rate stays on your machine.
-
 > **Note on numbers:** VAT and מקדמות are exact. **ביטוח לאומי is an estimate** — your real
 > advance is set by your Bituach Leumi assessment, which the tool cannot know. Verify the
 > national-insurance rate figures against [btl.gov.il](https://www.btl.gov.il) for your year.
-
----
-
-## 5. Import the module
-
-```powershell
-Import-Module .\src\YeshHeshbonit\YeshHeshbonit.psd1
-```
 
 If a credential or the rates file is missing or invalid, the tool refuses to run and tells
 you exactly what to fix.
 
 ---
 
-## 6. Use it
+## 5. Use it
 
 ### Command line
 
@@ -117,7 +111,7 @@ and a total-to-set-aside, browse the invoice table, and edit your מקדמות r
 
 ---
 
-## 7. Run the tests (optional)
+## 6. Run the tests (optional)
 
 ```powershell
 Invoke-Pester .\tests

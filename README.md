@@ -24,17 +24,19 @@ VAT period, calculates how much to set aside for:
 
 ## Setup
 
-See the [Setup Guide](docs/SETUP.md) for the full walkthrough. In short:
-
-1. Copy `.env.example` to `.env` and fill in your API credentials.
-2. Copy `config/rates.example.json` to `config/rates.json` and set your personal
-   `mikdamotRate` from your מס הכנסה assessment letter (a fraction, e.g. `0.08`).
-   Both files are gitignored — your keys and rate stay on your machine.
-3. Import the module:
+See the [Setup Guide](docs/SETUP.md) for details. Quick version:
 
 ```powershell
 Import-Module .\src\YeshHeshbonit\YeshHeshbonit.psd1
+Initialize-YeshHeshbonit
 ```
+
+`Initialize-YeshHeshbonit` prompts for your yeshinvoice API secret and userkey (masked)
+and your מקדמות rate as a percent, verifies the keys against the API, and writes `.env`
+and `config/rates.json` — both gitignored, so your keys and rate stay on your machine.
+
+Prefer to configure by hand? Copy `.env.example` → `.env` and
+`config/rates.example.json` → `config/rates.json` and edit them.
 
 ## Usage
 

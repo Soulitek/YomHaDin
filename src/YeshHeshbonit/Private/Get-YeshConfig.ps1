@@ -11,7 +11,7 @@ function Get-YeshConfig {
     if (-not $RatesPath) { $RatesPath = Join-Path $root 'config\rates.json' }
 
     if (-not (Test-Path $EnvPath)) {
-        throw "Missing .env file at '$EnvPath'. Copy .env.example and fill in your yeshinvoice credentials."
+        throw "Missing .env file at '$EnvPath'. Run Initialize-YeshHeshbonit to set up (or copy .env.example to .env and fill in your yeshinvoice credentials)."
     }
     $envVars = @{}
     foreach ($line in Get-Content $EnvPath) {
@@ -26,7 +26,7 @@ function Get-YeshConfig {
     }
 
     if (-not (Test-Path $RatesPath)) {
-        throw "Missing rates file at '$RatesPath'. Copy config/rates.example.json to config/rates.json and set your mikdamotRate (from your mas hachnasa assessment letter)."
+        throw "Missing rates file at '$RatesPath'. Run Initialize-YeshHeshbonit to set up (or copy config/rates.example.json to config/rates.json and set your mikdamotRate)."
     }
     try {
         $rates = Get-Content $RatesPath -Raw | ConvertFrom-Json

@@ -32,19 +32,17 @@ always confirm the numbers with your accountant. Provided "as is", no warranty
         git clone <repo-url> YeshHeshbonitAPI
         cd YeshHeshbonitAPI
 
-  2. Add your API credentials:
-        Copy-Item .env.example .env
-     Then edit .env and set YESH_SECRET and YESH_USERKEY.
-
-  3. Set your tax rate (you choose it - nothing ships with a rate):
-        Copy-Item config\rates.example.json config\rates.json
-     Then edit config\rates.json and set "mikdamotRate" to your income-tax
-     advance rate as a fraction (e.g. 0.08 for 8%), from your assessment letter.
-
-  4. Load the module:
+  2. Load the module:
         Import-Module .\src\YeshHeshbonit\YeshHeshbonit.psd1
 
-  Both .env and config\rates.json stay on your machine (gitignored).
+  3. Run the interactive setup:
+        Initialize-YeshHeshbonit
+     It prompts for your API secret + userkey (masked) and your mikdamot rate
+     as a percent, verifies the keys against the API, then writes .env and
+     config\rates.json (both gitignored - they stay on your machine).
+
+     Prefer to do it by hand? Copy .env.example to .env and
+     config\rates.example.json to config\rates.json, then edit them.
 
 
 -------------------------------------------------------------------------------
