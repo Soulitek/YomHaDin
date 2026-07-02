@@ -160,6 +160,7 @@
       if (currentParams) load(currentParams);
     } catch {
       showError('השרת אינו זמין.');
+      showRate(currentRatePercent);
     }
   });
 

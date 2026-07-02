@@ -76,9 +76,7 @@ A settings line in the controls area, above the cards:
   route never passes user input into it) — no path traversal surface
 - Atomic temp-write + full-schema validation before replace — a crash or bad value can
   never corrupt `rates.json`
-- Cross-origin: a JSON POST triggers a CORS preflight which Pode does not approve, so
-  browsers block cross-origin writes — the write endpoint is not reachable via the
-  DNS-rebinding vector noted in the dashboard spec
+- Cross-origin / DNS-rebinding: the server does not validate the Host header, so a page that rebinds DNS to 127.0.0.1 while the dashboard is running could reach this write endpoint. Accepted as low risk for this deployment: targeted attack against one user's ephemeral localhost port, the writable value is bounded to [0,1), and the rate is shown on every page load so a change would be noticed. A Host-header allowlist on the POST route is the mitigation if this is ever hardened. This matches the read-side DNS-rebinding risk already accepted in the dashboard spec.
 - No credentials involved anywhere in this flow; no logging
 
 ## Testing (Pester)
