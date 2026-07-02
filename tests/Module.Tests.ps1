@@ -10,7 +10,7 @@ Describe 'YeshHeshbonit module' {
     It 'declares the public functions' {
         $manifest = Test-ModuleManifest -Path $manifestPath
         $manifest.ExportedFunctions.Keys | Sort-Object |
-            Should -Be @('Export-TaxSummary', 'Get-DashboardCsvResponse', 'Get-DashboardSummaryResponse', 'Get-TaxSummary', 'Get-YeshInvoice', 'Start-TaxDashboard')
+            Should -Be @('Export-TaxSummary', 'Get-DashboardCsvResponse', 'Get-DashboardRatesResponse', 'Get-DashboardSummaryResponse', 'Get-TaxSummary', 'Get-YeshInvoice', 'Set-DashboardRatesResponse', 'Start-TaxDashboard')
     }
 
     It 'ships a rates.json with all required keys' {
