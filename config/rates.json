@@ -1,0 +1,13 @@
+{
+  "vatRate": 0.18,
+  "mikdamotRate": 0.05,
+  "bituachLeumi": {
+    "averageWageMonthly": 13769,
+    "reducedRateThreshold": 0.60,
+    "reducedRate": 0.0597,
+    "fullRate": 0.1783
+  },
+  "revenueDocTypes": [8, 9],
+  "creditDocTypes": [10],
+  "cancelledStatusIds": []
+}
