@@ -30,9 +30,12 @@
 
 ### התקנה
 
-הפירוט המלא ב[מדריך ההתקנה](docs/SETUP.md). בקצרה:
+מדביקים את הבלוק הזה ב-PowerShell 7 (עובד מכל תיקייה — מוריד את הקוד, נכנס לתיקייה, טוען
+ומגדיר):
 
 ```powershell
+git clone https://github.com/Soulitek/YomHaDin.git
+cd YomHaDin
 Import-Module .\src\YeshHeshbonit\YeshHeshbonit.psd1
 Initialize-YeshHeshbonit
 ```
@@ -41,8 +44,11 @@ Initialize-YeshHeshbonit
 המקדמות, מאמתת את המפתחות מול ה-API, וכותבת את `.env` ואת `config/rates.json` — שניהם
 ב-gitignore, כך שהמפתחות והאחוז נשארים אצלכם במחשב.
 
+> מריצים סקריפטים של PowerShell בפעם הראשונה? אם מופיעה שגיאת "running scripts is
+> disabled", הריצו פעם אחת: `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`.
+
 מעדיפים להגדיר ידנית? העתיקו `.env.example` ל-`.env` ואת `config/rates.example.json`
-ל-`config/rates.json`, וערכו אותם.
+ל-`config/rates.json`, וערכו אותם. פירוט מלא ב[מדריך ההתקנה](docs/SETUP.md).
 
 ### שימוש
 
@@ -115,9 +121,12 @@ VAT period, calculates how much to set aside for:
 
 ### Setup
 
-See the [Setup Guide](docs/SETUP.md) for details. Quick version:
+Paste this block into PowerShell 7 (works from any folder — it clones the code, enters
+the folder, imports, and configures):
 
 ```powershell
+git clone https://github.com/Soulitek/YomHaDin.git
+cd YomHaDin
 Import-Module .\src\YeshHeshbonit\YeshHeshbonit.psd1
 Initialize-YeshHeshbonit
 ```
@@ -126,8 +135,12 @@ Initialize-YeshHeshbonit
 and your מקדמות rate as a percent, verifies the keys against the API, and writes `.env`
 and `config/rates.json` — both gitignored, so your keys and rate stay on your machine.
 
+> First time running PowerShell scripts? If you see "running scripts is disabled", run
+> once: `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`.
+
 Prefer to configure by hand? Copy `.env.example` → `.env` and
-`config/rates.example.json` → `config/rates.json` and edit them.
+`config/rates.example.json` → `config/rates.json` and edit them. Full details in the
+[Setup Guide](docs/SETUP.md).
 
 ### Usage
 

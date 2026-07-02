@@ -29,11 +29,13 @@ always confirm the numbers with your accountant. Provided "as is", no warranty
 -------------------------------------------------------------------------------
 
   1. Get the code:
-        git clone <repo-url> YeshHeshbonitAPI
-        cd YeshHeshbonitAPI
+        git clone https://github.com/Soulitek/YomHaDin.git
+        cd YomHaDin
 
-  2. Load the module:
+  2. Load the module (run from the folder you just cd'd into):
         Import-Module .\src\YeshHeshbonit\YeshHeshbonit.psd1
+     If you see "running scripts is disabled", run once then retry:
+        Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 
   3. Run the interactive setup:
         Initialize-YeshHeshbonit

@@ -24,17 +24,22 @@ you how much to set aside for מע"מ, מקדמות מס הכנסה, and ביט�
 ## 2. Get the code
 
 ```powershell
-git clone <your-fork-or-repo-url> YeshHeshbonitAPI
-cd YeshHeshbonitAPI
+git clone https://github.com/Soulitek/YomHaDin.git
+cd YomHaDin
 ```
 
 ---
 
 ## 3. Import the module
 
+Run this **from the repo folder** you just `cd`'d into (the paths are relative to it):
+
 ```powershell
 Import-Module .\src\YeshHeshbonit\YeshHeshbonit.psd1
 ```
+
+> If you see "running scripts is disabled on this system", run this once, then retry:
+> `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`
 
 ---
 
