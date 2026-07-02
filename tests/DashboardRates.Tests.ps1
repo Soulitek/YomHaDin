@@ -118,4 +118,13 @@ Describe 'Set-DashboardRatesResponse' {
         $null = Set-DashboardRatesResponse -Body @{ mikdamotRate = 5 } -RatesPath $ratesPath -EnvPath $envPath
         @(Get-ChildItem $TestDrive -Filter '*.tmp').Count | Should -Be 0
     }
+
+    It 'rejects boolean values and leaves the file untouched' {
+        $before = Get-Content $ratesPath -Raw
+        foreach ($bad in $true, $false) {
+            $r = Set-DashboardRatesResponse -Body @{ mikdamotRate = $bad } -RatesPath $ratesPath -EnvPath $envPath
+            $r.StatusCode | Should -Be 400
+        }
+        Get-Content $ratesPath -Raw | Should -Be $before
+    }
 }

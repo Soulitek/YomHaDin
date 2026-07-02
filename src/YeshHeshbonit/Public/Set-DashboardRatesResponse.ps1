@@ -22,6 +22,9 @@ function Set-DashboardRatesResponse {
         return @{ StatusCode = 400; Body = @{ error = "Missing 'mikdamotRate'." } }
     }
     $value = $Body['mikdamotRate']
+    if ($value -is [bool]) {
+        return @{ StatusCode = 400; Body = @{ error = "'mikdamotRate' must be a number (fraction, e.g. 0.08)." } }
+    }
     if ($value -isnot [int] -and $value -isnot [long] -and $value -isnot [double] -and $value -isnot [decimal]) {
         return @{ StatusCode = 400; Body = @{ error = "'mikdamotRate' must be a number (fraction, e.g. 0.08)." } }
     }
