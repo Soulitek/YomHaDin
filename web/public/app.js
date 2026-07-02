@@ -86,7 +86,6 @@
 
   function pad(n) { return String(n).padStart(2, '0'); }
   function monthStr(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1); }
-  function dateStr(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
 
   $('btn-this-month').addEventListener('click', () => {
     const m = monthStr(new Date());
@@ -103,30 +102,8 @@
     load({ month: m });
   });
 
-  $('btn-vat-period').addEventListener('click', () => {
-    // Bi-monthly VAT periods: Jan-Feb, Mar-Apr, May-Jun, Jul-Aug, Sep-Oct, Nov-Dec
-    const now = new Date();
-    const startMonth = now.getMonth() - (now.getMonth() % 2);
-    const from = new Date(now.getFullYear(), startMonth, 1);
-    const to = new Date(now.getFullYear(), startMonth + 2, 0);
-    load({ from: dateStr(from), to: dateStr(to) });
-  });
-
   $('month-input').addEventListener('change', (e) => {
     if (e.target.value) load({ month: e.target.value });
-  });
-
-  $('btn-apply-range').addEventListener('click', () => {
-    const from = $('from-input').value;
-    const to = $('to-input').value;
-    if (!from || !to) { showError('יש לבחור תאריך התחלה ותאריך סיום.'); return; }
-    load({ from, to });
-  });
-
-  $('btn-csv').addEventListener('click', () => {
-    if (currentParams) {
-      window.location.href = '/api/summary/csv?' + new URLSearchParams(currentParams);
-    }
   });
 
   let currentRatePercent = null;

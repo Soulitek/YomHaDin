@@ -31,7 +31,6 @@ header .sub { margin: 0 0 20px; color: var(--muted); }
   margin-bottom: 18px;
 }
 .quick, .pickers { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.or { color: var(--muted); }
 button {
   border: 1px solid var(--border);
   background: var(--card);
@@ -41,9 +40,7 @@ button {
   cursor: pointer;
 }
 button:hover { border-color: var(--accent); color: var(--accent); }
-button.csv { margin-top: 16px; background: var(--accent); border-color: var(--accent); color: #fff; }
-button.csv:hover { opacity: .9; color: #fff; }
-input[type="month"], input[type="date"] {
+input[type="month"] {
   border: 1px solid var(--border);
   border-radius: 8px;
   padding: 6px 8px;
