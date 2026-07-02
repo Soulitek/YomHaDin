@@ -28,7 +28,6 @@
 - Windows עם PowerShell 7 ומעלה
 - חשבון ב-yeshinvoice.co.il עם פרטי הזדהות ל-API (secret ו-userkey)
 - מודול Pode (לדשבורד בלבד): `Install-Module Pode -Scope CurrentUser`
-- Pester 5 (לפיתוח ובדיקות בלבד)
 
 ### התקנה
 
@@ -107,7 +106,6 @@ VAT period, calculates how much to set aside for:
 - Windows, PowerShell 7+
 - yeshinvoice.co.il account with API credentials (secret + userkey)
 - Pode module (dashboard only): `Install-Module Pode -Scope CurrentUser`
-- Pester 5 (dev/testing only)
 
 ### Setup
 
