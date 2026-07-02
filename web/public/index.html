@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>מחשבון הפרשות מס — יש חשבונית</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>מחשבון הפרשות מס</h1>
+  <p class="sub">הכנסות מיש חשבונית — מע"מ, מקדמות מס הכנסה וביטוח לאומי</p>
+</header>
+
+<section class="controls">
+  <div class="quick">
+    <button id="btn-this-month" type="button">החודש</button>
+    <button id="btn-prev-month" type="button">חודש קודם</button>
+    <button id="btn-vat-period" type="button">תקופת מע"מ נוכחית</button>
+  </div>
+  <div class="pickers">
+    <label>חודש <input type="month" id="month-input"></label>
+    <span class="or">או טווח:</span>
+    <label>מ־ <input type="date" id="from-input"></label>
+    <label>עד <input type="date" id="to-input"></label>
+    <button id="btn-apply-range" type="button">הצג טווח</button>
+  </div>
+</section>
+
+<div id="error-banner" class="error hidden"></div>
+<div id="loading" class="loading hidden">טוען…</div>
+
+<section id="results" class="hidden">
+  <p id="period-label" class="period"></p>
+  <section class="cards">
+    <div class="card"><h2>מע"מ להפרשה</h2><p class="amount" id="card-vat"></p></div>
+    <div class="card"><h2>מקדמות מס הכנסה</h2><p class="amount" id="card-mikdamot"></p></div>
+    <div class="card">
+      <h2>ביטוח לאומי <span class="badge">אומדן</span></h2>
+      <p class="amount" id="card-bl"></p>
+      <p class="note">מבוסס על הכנסת התקופה; המקדמה בפועל נקבעת לפי השומה בביטוח לאומי.</p>
+    </div>
+  </section>
+  <p class="summary-line">
+    <span>ברוטו: <b id="sum-gross"></b></span>
+    <span>נטו לפני מע"מ: <b id="sum-net"></b></span>
+  </p>
+  <table id="invoice-table">
+    <thead><tr><th>תאריך</th><th>מס' מסמך</th><th>לקוח</th><th>ברוטו</th><th>נטו</th><th>מע"מ</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <p id="empty-msg" class="hidden">לא נמצאו מסמכי הכנסה בתקופה.</p>
+  <button id="btn-csv" type="button" class="csv">הורדת CSV לרואה חשבון</button>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>
