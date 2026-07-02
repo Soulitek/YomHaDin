@@ -1,6 +1,6 @@
 {
   "vatRate": 0.18,
-  "mikdamotRate": 0.05,
+  "mikdamotRate": 0.08,
   "bituachLeumi": {
     "averageWageMonthly": 13769,
     "reducedRateThreshold": 0.60,
