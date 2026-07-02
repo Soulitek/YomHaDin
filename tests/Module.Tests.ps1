@@ -13,8 +13,8 @@ Describe 'YeshHeshbonit module' {
             Should -Be @('Export-TaxSummary', 'Get-DashboardCsvResponse', 'Get-DashboardRatesResponse', 'Get-DashboardSummaryResponse', 'Get-TaxSummary', 'Get-YeshInvoice', 'Set-DashboardRatesResponse', 'Start-TaxDashboard')
     }
 
-    It 'ships a rates.json with all required keys' {
-        $rates = Get-Content (Join-Path $PSScriptRoot '..\config\rates.json') -Raw | ConvertFrom-Json
+    It 'ships a rates.example.json with all required keys' {
+        $rates = Get-Content (Join-Path $PSScriptRoot '..\config\rates.example.json') -Raw | ConvertFrom-Json
         $rates.vatRate | Should -Be 0.18
         $rates.mikdamotRate | Should -Not -BeNullOrEmpty
         $rates.bituachLeumi.averageWageMonthly | Should -BeGreaterThan 0

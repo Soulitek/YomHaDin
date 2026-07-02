@@ -8,6 +8,13 @@ VAT period, calculates how much to set aside for:
 - **מקדמות מס הכנסה** — personal advance rate × pre-VAT turnover
 - **ביטוח לאומי** — self-employed contribution (estimate)
 
+> **Unofficial tool.** Not affiliated with or endorsed by yeshinvoice. The figures are a
+> planning aid, **not tax advice** — VAT and מקדמות are exact, but ביטוח לאומי is an
+> estimate (your real advance is set by your Bituach Leumi assessment). Always confirm
+> with your accountant. Provided "as is", no warranty (see [LICENSE](LICENSE)).
+
+**New here? Follow the [Setup Guide](docs/SETUP.md).**
+
 ## Requirements
 
 - Windows, PowerShell 7+
@@ -17,9 +24,12 @@ VAT period, calculates how much to set aside for:
 
 ## Setup
 
+See the [Setup Guide](docs/SETUP.md) for the full walkthrough. In short:
+
 1. Copy `.env.example` to `.env` and fill in your API credentials.
-2. Edit `config/rates.json` — set your personal `mikdamotRate` from your מס הכנסה
-   assessment letter. VAT and ביטוח לאומי figures are current for 2026.
+2. Copy `config/rates.example.json` to `config/rates.json` and set your personal
+   `mikdamotRate` from your מס הכנסה assessment letter (a fraction, e.g. `0.08`).
+   Both files are gitignored — your keys and rate stay on your machine.
 3. Import the module:
 
 ```powershell
@@ -58,11 +68,9 @@ Invoke-Pester .\tests
 
 ## Documentation
 
-- Design spec: [docs/superpowers/specs/2026-07-02-yeshheshbonit-tax-calc-design.md](docs/superpowers/specs/2026-07-02-yeshheshbonit-tax-calc-design.md)
+- [Setup Guide](docs/SETUP.md) — full install and first-run walkthrough
+- Design specs and plans live under [docs/superpowers/](docs/superpowers/)
 
-## Status
+## License
 
-Working. Run `Invoke-Pester .\tests` to verify (78 tests).
-
-Remember to set `mikdamotRate` in `config/rates.json` to your actual rate from the
-מס הכנסה assessment letter — the committed value is a placeholder default.
+[MIT](LICENSE) © 2026 SouliTEK

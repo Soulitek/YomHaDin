@@ -26,7 +26,7 @@ function Get-YeshConfig {
     }
 
     if (-not (Test-Path $RatesPath)) {
-        throw "Missing rates file at '$RatesPath'."
+        throw "Missing rates file at '$RatesPath'. Copy config/rates.example.json to config/rates.json and set your mikdamotRate (from your mas hachnasa assessment letter)."
     }
     try {
         $rates = Get-Content $RatesPath -Raw | ConvertFrom-Json

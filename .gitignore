@@ -1,6 +1,10 @@
 # Secrets
 .env
 
+# Local rates config — copy config/rates.example.json to config/rates.json
+# and set your own mikdamotRate. Kept out of the repo so no personal rate ships.
+config/rates.json
+
 # PowerShell / editor artifacts
 *.log
 .vscode/
