@@ -69,22 +69,10 @@ Get-TaxSummary -Month 2026-06 -ExportCsv .\2026-06-summary.csv
 
 ```powershell
 Start-TaxDashboard              # http://127.0.0.1:8321, נפתח בדפדפן
-Start-TaxDashboard -Port 9000 -NoBrowser
 ```
 
 דשבורד בעברית (RTL): בחירת חודש, כרטיסי הפרשה (מע"מ / מקדמות / ביטוח לאומי), סך הכל
 להפרשה, טבלת חשבוניות, ועריכת אחוז המקדמות. מאזין ל-127.0.0.1 בלבד — לא נגיש מהרשת.
-
-### בדיקות
-
-```powershell
-Invoke-Pester .\tests
-```
-
-### תיעוד
-
-- [מדריך ההתקנה](docs/SETUP.md) — התקנה מלאה והרצה ראשונה
-- מסמכי אפיון ותוכניות תחת [docs/superpowers/](docs/superpowers/)
 
 ### רישיון
 
@@ -161,23 +149,11 @@ Get-TaxSummary -Month 2026-06 -ExportCsv .\2026-06-summary.csv
 
 ```powershell
 Start-TaxDashboard              # http://127.0.0.1:8321, opens your browser
-Start-TaxDashboard -Port 9000 -NoBrowser
 ```
 
 Hebrew RTL dashboard: month picker, set-aside cards (מע"מ / מקדמות / ביטוח לאומי),
 total-to-set-aside, invoice table, and editable מקדמות rate. Binds to 127.0.0.1 only —
 never reachable from the network.
-
-### Tests
-
-```powershell
-Invoke-Pester .\tests
-```
-
-### Documentation
-
-- [Setup Guide](docs/SETUP.md) — full install and first-run walkthrough
-- Design specs and plans live under [docs/superpowers/](docs/superpowers/)
 
 ### License
 
